@@ -1,8 +1,12 @@
+import os
+
+
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'CFBAFB0B56F654C95B068B6E065390519E3B9573D878E2CCC1C845E6CA99017F'
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 
 class ProductionConfig(Config):
