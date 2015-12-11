@@ -1,6 +1,7 @@
 from app import db
 from sqlalchemy.dialects.postgresql import JSON
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
+
 
 #
 # class Result(db.Model):
@@ -20,9 +21,41 @@ from sqlalchemy.orm import validates
 #         return '<id {}>'.format(self.id)
 #
 
+
 class User(db.Model):
     __tablename__ = 'users'
 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    lastname = db.Column(db.String())
+    ci = db.Column(db.Integer())
+    email = db.String(db.String())
+
+    @validates('email')
+    def validate_email(self, key, address):
+        assert '@' in address
+        return address
+
+
+class SubCategory(db.Model):
+    __tablename__ = 'subcategories'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    sub_categories = relationship("SubCategory")
+
+
+class Client(db.Model):
+    __tablename__ = 'clients'
+
+    Categories = relationship("Category")
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     lastname = db.Column(db.String())
